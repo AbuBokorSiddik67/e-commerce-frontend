@@ -1,8 +1,13 @@
 import type { NextConfig } from 'next';
 
-const BACKEND = (
+const raw = (
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'
-).replace(/\/$/, '');
+).trim();
+// https:// ভুলে গেলে নিজে থেকে যোগ হবে, শেষের / বাদ যাবে
+const BACKEND = (/^https?:\/\//.test(raw) ? raw : `https://${raw}`).replace(
+  /\/+$/,
+  '',
+);
 
 const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
